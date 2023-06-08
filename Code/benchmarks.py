@@ -264,8 +264,8 @@ def train_val_split(args, fold, sub_fold, data_train_and_val, label_train_and_va
             123, -1)[:, list(val_list)].reshape(-1)
 
     elif args.subjects_type == 'inter':
-        print(data_train_and_val.shape)
-        print(het_train_and_val.shape)
+#         print(data_train_and_val.shape)
+#         print(het_train_and_val.shape)
         data_list = np.arange(0, data_train_and_val.shape[0]/(args.n_vids*30))
         start = sub_fold*36
         end = start+36
