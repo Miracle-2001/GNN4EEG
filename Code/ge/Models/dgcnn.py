@@ -63,20 +63,3 @@ class DGCNN(torch.nn.Module):
         # NO softmax!!!
         return x
 
-class DGCNNTrainer(Trainer):
-    def __init__(self, edge_index=None, edge_weight=None, num_classes=2, device=torch.device('cpu'),
-                 optimizer='Adam', num_hiddens=400, num_layers=2, dropout=0.5,early_stop=20,
-                 batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
-
-        if edge_index is None or edge_weight is None:
-            raise Exception("No edge_index and edge_weight")
-        num_nodes = edge_weight.shape[0]
-
-        super().__init__(DGCNN, num_nodes, num_hiddens, num_classes, batch_size, num_epoch,
-                         lr, l1_reg, l2_reg, dropout, early_stop, optimizer, device,
-                         extension={'num_layers': num_layers, 
-                                    'loss_module': nn.CrossEntropyLoss(),
-                                    'edge_weight':edge_weight,
-                                    'edge_index':edge_index
-                                    })
-        

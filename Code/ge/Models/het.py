@@ -129,14 +129,4 @@ class Het(nn.Module):
         out = self.lin2(out)  # (b,2)
         return out
 
-class HetTrainer(Trainer):
-    def __init__(self, num_nodes, num_classes=2, device=torch.device('cpu'),
-                 optimizer='Adam',
-                 num_hiddens=64, dropout=0.2,early_stop=20,
-                 batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):  # ,model_save_path='./rgnn_weights2'):
-        
-        super().__init__(Het, num_nodes, num_hiddens, num_classes, batch_size, num_epoch,
-                         lr, l1_reg, l2_reg, dropout, early_stop, optimizer, device,
-                         extension={'loss_module': nn.CrossEntropyLoss()
-                                    })
-        
+
