@@ -52,7 +52,12 @@ A data flow diagram is illustrated as following:
 
 
 ## Example Usage
-
+data_split
+data_FACED
+model
+evaluation
+model.train
+model.predict
 ## Aruguments 
 
 ## Models and Dataset

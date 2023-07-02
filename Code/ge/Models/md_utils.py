@@ -117,6 +117,47 @@ def get_edge_weight(args):
             edge_weight[j][i] -= 1
     return edge_index, edge_weight
 
+def get_edge_weight_from_electrode(model_name,edge_pos_value,global_connections=None):
+    num_nodes=len(edge_pos_value)
+    edge_weight = np.zeros([num_nodes, num_nodes])
+    # edge_pos_value = [edge_pos[key] for key in total_part]
+    delta = 2  # Choosing delta=2 makes the proportion of non_negligible connections exactly 20%
+    edge_index = [[], []]
+    if model_name=='DGCNN' or model_name=='SparseDGCNN':
+        for i in range(num_nodes):
+            for j in range(num_nodes):
+                edge_index[0].append(i)
+                edge_index[1].append(j)
+                if i == j:
+                    edge_weight[i][j] = 1
+                else:
+                    edge_weight[i][j] = np.sum(
+                        [(edge_pos_value[i][k] - edge_pos_value[j][k])**2 for k in range(2)])
+                    if delta/edge_weight[i][j] > 1:
+                        edge_weight[i][j] = math.exp(-edge_weight[i][j]/2)
+                    else:
+                        edge_weight[i][j] = 0
+    elif model_name=='RGNN':
+        for i in range(num_nodes):
+            for j in range(num_nodes):
+                edge_index[0].append(i)
+                edge_index[1].append(j)
+                if i == j:
+                    edge_weight[i][j] = 1
+                else:
+                    edge_weight[i][j] = np.sum([(edge_pos_value[i][k]
+                                                - edge_pos_value[j][k])**2
+                                                for k in range(2)])
+                    edge_weight[i][j] = min(1, delta/edge_weight[i][j])
+        if global_connections is not None:
+            for item in global_connections:
+                i = item[0]
+                j = item[1]
+                edge_weight[i][j] -= 1
+                edge_weight[j][i] -= 1
+    return edge_index, edge_weight
+
+
 def maybe_num_nodes(index, num_nodes=None):
     return index.max().item() + 1 if num_nodes is None else num_nodes
 

@@ -172,7 +172,35 @@ class Trainer(object):
         else:
             return total_class_predictions
 
-    def data_prepare(self, train_data, train_label, valid_data, valid_label, mat_train=None, mat_val=None, num_freq=None):
+    def data_prepare_train_only(self, train_data, train_label, valid_data=None, mat_train=None, num_freq=None):
+        label_class = set(train_label) # if use RGNN and NodeDAT, then valid_data must not be None
+        assert(len(label_class) == self.num_classes)
+
+        if self.model_name == 'Het':
+            train_mat_list = mat_train  # get_het_adjacency_matrix(train_data)
+            train_dataset = HetDataset(
+                train_data[:, :, num_freq:], train_data[:, :, :num_freq], train_mat_list, train_label, self.device)
+
+        elif self.model_name=='RGNN' and self.domain_adaptation==True:
+            SMO = SMOTE(random_state=random.randint(0, 255))
+            pre_label = np.zeros(valid_data.shape[0]+train_data.shape[0])
+            pre_label[train_data.shape[0]:] = 1
+            tmp_data, tmp_label = SMO.fit_resample(np.concatenate(
+                (train_data, valid_data), axis=0).reshape(-1, 30*self.num_features), pre_label)
+            valid_oversampled = tmp_data[np.where(
+                tmp_label == 1)].reshape(-1, 30, self.num_features)
+            # print(valid_oversampled.shape)
+            train_dataset = DATDataSet(
+                train_data, valid_oversampled, train_label, self.device)
+        else:
+            train_dataset = NormalDataset(train_data, train_label, self.device)
+
+        train_loader = DataLoader(
+            dataset=train_dataset, batch_size=self.batch_size, shuffle=True)
+
+        return train_loader
+    
+    def data_prepare(self, train_data, train_label, valid_data=None, valid_label=None, mat_train=None, mat_val=None, num_freq=None):
         label_class = set(train_label)
         assert(len(label_class) == self.num_classes)
 
@@ -206,7 +234,7 @@ class Trainer(object):
 
         return train_loader, valid_loader
 
-    def train(self, train_data, train_label, valid_data, valid_label, fold, model_path, model_name,
+    def train_and_eval(self, train_data, train_label, valid_data, valid_label, fold, model_path, model_name,
               num_freq=None, mat_train=None, mat_val=None,reload=True,nd_predict=True): #,small=False,step=0.00001):
         # self.num_epoch = 1
         if self.model_name == 'Het':
@@ -336,6 +364,56 @@ class Trainer(object):
             print(type(preds_train),type(preds_val))
             return np.array(preds_train),np.array(preds_val)
 
+    def train_only(self, train_data, train_label,valid_data=None,mat_train=None,
+              num_freq=None): #,small=False,step=0.00001):
+        # self.num_epoch = 1
+        if self.model_name == 'Het':
+            self.num_freq = num_freq
+            self.num_time = train_data.shape[-1]-num_freq
+            self.trainer_config_para['num_freq'] = self.num_freq
+            self.trainer_config_para['num_time'] = self.num_time
+        else:
+            self.num_features = train_data.shape[-1]
+            # save num_features
+            self.trainer_config_para['num_features'] = self.num_features
+        # save model_config_para and save into trainer_config_para['model_config_para']
+        for k, v in self.__dict__.items():
+            if k in self.model_config_para_name:
+                self.model_config_para.update({k: v})
+        self.trainer_config_para['model_config_para'] = self.model_config_para
+
+        self.model = self.model_f(**self.model_config_para)
+        self.model.to(self.device)
+        print("gpu device ",self.device)
+
+        # self.optimizer = torch.optim.Adam(
+        #         self.model.parameters(), lr=self.lr)
+        self.optimizer = self.optimizer(
+                self.model.parameters(), lr=self.lr)
+        
+        if self.model_name == 'Het':
+            train_loader = self.data_prepare_train_only(
+                train_data, train_label, mat_train, num_freq)
+            pass
+        else:
+            train_loader = self.data_prepare_train_only(
+                train_data, train_label)
+
+
+        train_acc_list = []
+        train_num_correct_list=[]
+        train_loss_list = []
+        # lr_list=[]
+        for i in range(self.num_epoch):
+            # print("training epochs : ", i)
+            train_metric = self.do_epoch(train_loader, 'train', i)
+            # print('device',self.device,'fold', fold, 'Epoch {:.1f} training_acc: {:.4f}  valid_acc: {:.4f}| train_loss: {:.4f}, valid_loss: {:.4f}, | time cost: {:.3f}'.format(
+            #     train_metric['epoch'], train_metric['acc'], eval_metric['acc'], train_metric['loss'], eval_metric['loss'], time_cost))
+            train_acc_list.append(train_metric['acc'])
+            train_loss_list.append(train_metric['loss'])
+            train_num_correct_list.append(train_metric['num_correct'])
+
+        
     def predict(self, data, adj_mat=None):  # inference
         if self.model is None:
             raise Exception(

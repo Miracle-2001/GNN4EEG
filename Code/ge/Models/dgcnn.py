@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from .md_utils import *
 from .trainer import Trainer
 
-class DGCNN(torch.nn.Module):
+class DGCNN_Model(torch.nn.Module):
     def __init__(self, device, num_nodes,  edge_weight, edge_index, num_features, num_hiddens, num_classes, num_layers, learn_edge_weight=True,dropout=0.5):
         """
             num_nodes: number of nodes in the graph
@@ -17,7 +17,7 @@ class DGCNN(torch.nn.Module):
             dropout: dropout rate in final linear layer
             domain_adaptation: RevGrad
         """
-        super(DGCNN, self).__init__()
+        super(DGCNN_Model, self).__init__()
         self.device = device
         self.num_nodes = num_nodes
         self.xs, self.ys = torch.tril_indices(
