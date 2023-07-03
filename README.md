@@ -64,7 +64,7 @@ cd src
 pip install -r requirements.txt
 ```
 
-4. (optional) To download the FACED dataset, please refer to the [DOI link](https://doi.org/10.7303/syn50614194). Detailed steps will be discussed in $\color{red}{TODO}$
+4. (optional) To download the FACED dataset, please refer to the [DOI link](https://doi.org/10.7303/syn50614194). Detailed steps will be discussed in [here](./src/further_illustration/FACED_dataset_preparations.md)
 .
 
 ## Models and Dataset
@@ -135,7 +135,7 @@ Totally, GNN4EEG implements these functions:
 and each model is equipped with **train**, **predict**, **save** and **load** function.
 
 
-Detailed arguments and usage will be further discussed in $\color{red}{TODO}$.
+Detailed arguments and usage will be further discussed in [here](./src/further_illustration/Functions_and_Arguments.md).
 
 ## Example Usage
 
