@@ -5,7 +5,7 @@
 
 However, it remains challenging to evaluate the transferability of these models and implement GNN-based EEG classification models in practice due to the lack of easy-to-use toolkits and large-scale public benchmarks. To tackle this, we build GNN4EEG, a benchmark and toolkit for EEG classification with GNN. -->
 
-GNN4EEG is a benchmark and toolkit focusing on Electroencephalography (EEG) classification tasks via Graph Neural Network (GNN), aiming to facilitate research in this direction. Researchers can arbitrarily choose their prefered GNN models, hyper-parameters and experimental protocols. Training and evaluating dataset can be flexibly chosen as the default FACED dataset (with detailed information listed in "Models and Dataset" chapter) or any self-built datasets.  The characteristics of our toolkit can be summarized as follows:
+GNN4EEG is a benchmark and toolkit focusing on Electroencephalography (EEG) classification tasks via Graph Neural Network (GNN), aiming to facilitate research in this direction. Researchers can arbitrarily choose their prefered GNN models, hyper-parameters and experimental protocols. Training and evaluating dataset can be flexibly chosen as the default *FACED dataset* (with detailed information listed in "Models and Dataset" chapter) or any *self-built datasets*.  The characteristics of our toolkit can be summarized as follows:
 
 - **Large Benchmark**: We introduce a large
 benchmark constructed with ***4*** EEG classification tasks based on
@@ -26,7 +26,7 @@ models, i.e., DGCNN, RGNN, SparseDGCNN and HetEmotionNet.
 
 ## Structure
 
-Generally, GNN4EEG decomposes the whole training and evaluating progress into three steps:
+Generally, GNN4EEG decomposes the whole training and evaluating progress into three modules:
 
 - **Data Splitting**: First, it is necessary to choose the data splitting protocols, i.e., intra-subject or cross-subject. A list describing
 the subject of each sample should be provided to guide the splitting.
@@ -49,22 +49,46 @@ A data flow diagram is illustrated as following:
 
 ## Getting Started
 
+1. Install [Anaconda](https://docs.conda.io/en/latest/miniconda.html) with Python >= 3.5
+2. Clone the repository
 
+```bash
+git clone https://github.com/Miracle-2001/GNN4EEG.git
+```
 
-## Example Usage
-data_split
-data_FACED
-model
-evaluation
-model.train
-model.predict
-## Aruguments 
+3. Install requirements and step into the `src` folder
+
+```bash
+cd GNN4EEG
+cd src
+pip install -r requirements.txt
+```
+
+4. (optional) To download the FACED dataset, please refer to the [DOI link](https://doi.org/10.7303/syn50614194). Detailed steps will be discussed in $\color{red}{TODO}$
+.
 
 ## Models and Dataset
 
 **Models:**
 
+We have implemented the following methods :
+
+- [EEG Emotion Recognition Using Dynamical Graph Convolutional Neural Networks](https://ieeexplore.ieee.org/abstract/document/8320798) (DGCNN [IEEE Trans'20])
+
+- [EEG-Based Emotion Recognition Using Regularized Graph Neural Networks](https://arxiv.org/pdf/1907.07835.pdf) (RGNN [IEEE Trans'20])
+
+- [SparseDGCNN: Recognizing Emotion from Multichannel EEG Signals](https://ieeexplore.ieee.org/abstract/document/9321519) (SparseDGCNN [IEEE Trans'21])
+
+- [HetEmotionNet: Two-Stream Heterogeneous Graph Recurrent Neural Network for Multi-modal Emotion Recognition](https://arxiv.org/pdf/2108.03354.pdf) (HetEmotionNet [ACM MM'21])
+
 **Dataset:**
+
+GNN4EEG built the large-scale benchmark with the Finer-grained Affective Computing EEG Dataset ([FACED](https://doi.org/10.7303/syn50614194)). As far
+as we know, FACED is the largest affective computing dataset,
+which is constructed by recording 32-channel EEG signals from a
+large cohort of 123 subjects watching 28 emotion-elicitation video
+clips.
+
 
 **Experiments:**
 
@@ -72,8 +96,6 @@ We present the experimental setup and the evaluation results using the proposed 
 overall performances are elaborated here. The experiments are implemented on NVIDIA GeForce RTX 3090.
 
 (Here, "intra-2" means binary intra-subject classification task and "cross-9" means 9 class cross-subject classification task. Others are similar.)
-
-
 
 In the experiments, we set the fold number 𝐾 = 10 for all validation protocols and the
 “inner” fold number 𝐾
@@ -93,9 +115,43 @@ for cross-9, and 0.003 for cross-2 and intra-9.
 
 ![result](./src/pics/result.png)
 
+## Functions and Arguments 
+
+GNN4EEG implements 4 EEG classification tasks on FACED as the benchmark, 2 data splitting protocols, 3 validation
+protocols, and 4 GNN models. Plenty optional parameters are provided for convience and flexibility.
+
+Totally, GNN4EEG implements these functions:
+
+
+- **protocols.data_split**
+- **protocols.data_FACED**
+- **protocols.evaluation**
+
+- **models.DGCNN**
+- **models.RGNN**
+- **models.SparseDGCNN**
+- **models.HetEmotionNet**
+
+and each model is equipped with **train**, **predict**, **save** and **load** function.
+
+
+Detailed arguments and usage will be further discussed in $\color{red}{TODO}$.
+
+## Example Usage
+
+Generally, to train and evaluate a model on a certain dataset, users can follow the steps below (according to the "Structure" chapter):
+
+1. **Data Splitting**: Use protocols.data_split or protocols.data_FACED to load data and define the data splitting protocol.
+
+2. **Model Selection**: Use models.* to select and set some basic hyper-parameters of your model.
+
+3. **Validation Protocols and Other Training Configurations**: Use protocols.evaluation to define the validation protocols and put other training configurations into the parameter "grid". Then, the training and evaluating progress will be launched! (Hint: in this step, if you do not need a cross-validation to find proper hyper-parameters, then simply using *.train and *.predict is enough. Here, * represents your model declared in step 2)
+
+Entire codes and other examples can be found in $\color{red}{TODO}$
+
 ## Citations
 
-TO BE DONE
+$\color{red}{TODO}$
 
 ## Contact
 
