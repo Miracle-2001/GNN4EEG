@@ -147,7 +147,7 @@ Generally, to train and evaluate a model on a certain dataset, users can follow 
 
 3. **Validation Protocols and Other Training Configurations**: Use protocols.evaluation to define the validation protocols and put other training configurations into the parameter "grid". Then, the training and evaluating progress will be launched! (Hint: in this step, if you do not need a cross-validation to find proper hyper-parameters, then simply using *.train and *.predict is enough. Here, * represents your model declared in step 2)
 
-Entire codes and other examples can be found in $\color{red}{TODO}$
+Entire codes and other examples can be found in [here](example.ipynb)
 
 ## Citations
 
