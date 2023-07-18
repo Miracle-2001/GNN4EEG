@@ -9,7 +9,7 @@ import time
 import joblib
 import copy
 import json
-from load_data import load_srt_de
+from GNN4EEG.ge.load_data import load_srt_de
 from Models.rgnn import RGNNTrainer
 from Models.dgcnn import DGCNNTrainer
 from Models.mlp import MLPTrainer
@@ -17,7 +17,7 @@ from Models.het import HetTrainer
 from Models.sparseDgcnn import SparseDGCNNTrainer
 from Models.md_utils import *
 from sklearn.svm import LinearSVC
-from load_data import load_srt_de
+from GNN4EEG.ge.load_data import load_srt_de
 
 
 def data_prepare(args, fold):

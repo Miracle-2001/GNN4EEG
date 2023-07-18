@@ -12,7 +12,7 @@ import json
 from benchmarks import *
 from evaluate import draw_results
 from multiprocessing.pool import Pool
-from load_data import load_srt_de
+from GNN4EEG.ge.load_data import load_srt_de
 from manager_torch import GPUManager
 # from pytorch_lightning import seed_everything
 

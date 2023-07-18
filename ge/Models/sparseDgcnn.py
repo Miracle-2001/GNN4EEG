@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from .md_utils import *
 from .trainer import Trainer
 
-class SparseDGCNN(torch.nn.Module):
+class SparseDGCNN_Model(torch.nn.Module):
     def __init__(self, device, num_nodes,  edge_weight, edge_index, num_features, num_hiddens, num_classes, num_layers, learn_edge_weight=True,dropout=0.5):
         """
             num_nodes: number of nodes in the graph
@@ -17,7 +17,7 @@ class SparseDGCNN(torch.nn.Module):
             dropout: dropout rate in final linear layer
             domain_adaptation: RevGrad
         """
-        super(SparseDGCNN, self).__init__()
+        super(SparseDGCNN_Model, self).__init__()
         self.device = device
         self.num_nodes = num_nodes
         self.xs, self.ys = torch.tril_indices(
@@ -72,7 +72,7 @@ class SparseDGCNNTrainer(Trainer):
         num_nodes = edge_weight.shape[0]
 
 
-        super().__init__(SparseDGCNN, num_nodes, num_hiddens, num_classes, batch_size, num_epoch,
+        super().__init__(SparseDGCNN_Model, num_nodes, num_hiddens, num_classes, batch_size, num_epoch,
                          lr, l1_reg,l2_reg, dropout, early_stop, optimizer, device,
                          extension={'num_layers': num_layers, 
                                     'loss_module': nn.CrossEntropyLoss(),

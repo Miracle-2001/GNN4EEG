@@ -268,8 +268,8 @@ def get_het_adjacency_matrix(data, threshold=0.7, bins=10):
     # Numpy array to tensor
     adj_matrix = torch.from_numpy(adj_matrix)
     # Replace inf and nan
-    adj_matrix = torch.where(t.isinf(adj_matrix), t.full_like(adj_matrix, 0), adj_matrix)
-    adj_matrix = torch.where(t.isnan(adj_matrix), t.full_like(adj_matrix, 0), adj_matrix)
+    adj_matrix = torch.where(torch.isinf(adj_matrix), torch.full_like(adj_matrix, 0), adj_matrix)
+    adj_matrix = torch.where(torch.isnan(adj_matrix), torch.full_like(adj_matrix, 0), adj_matrix)
     # Threshold
     adj_matrix[adj_matrix < threshold] = 0
     return adj_matrix

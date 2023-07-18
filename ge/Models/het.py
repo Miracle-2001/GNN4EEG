@@ -48,6 +48,7 @@ class STDCN_with_GRU(nn.Module):
         H = torch.bmm(deg_inv, H)
         H = torch.bmm(H, deg_inv)
         H = torch.tensor(H, dtype=torch.float32).to(self.device)
+        # H = H.clone().detach().to(self.device)
         return H
 
     def reset_parameters(self):
@@ -83,9 +84,9 @@ class STDCN_with_GRU(nn.Module):
         return X_
 
 
-class Het(nn.Module):
+class Het_Model(nn.Module):
     def __init__(self, device, num_nodes, num_time, num_freq, num_classes,num_hiddens=64, dropout=0.2):
-        super(Het, self).__init__()
+        super(Het_Model, self).__init__()
         # Load model configuration
         self.num_node = num_nodes
         self.num_band = num_freq

@@ -45,7 +45,7 @@ class ReverseLayerF(Function):
         return output, None
 
 
-class RGNN(torch.nn.Module):
+class RGNN_Model(torch.nn.Module):
     def __init__(self, device, num_nodes,  edge_weight, edge_index, num_features, num_hiddens, num_classes, num_layers, dropout=0.5, domain_adaptation=False):
         """
             num_nodes: number of nodes in the graph
@@ -59,7 +59,7 @@ class RGNN(torch.nn.Module):
             domain_adaptation: RevGrad
         """
         learn_edge_weight=True
-        super(RGNN, self).__init__()
+        super(RGNN_Model, self).__init__()
         self.device = device
         self.domain_adaptation = domain_adaptation
         self.num_nodes = num_nodes

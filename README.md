@@ -64,7 +64,7 @@ cd src
 pip install -r requirements.txt
 ```
 
-4. (optional) To download the FACED dataset, please refer to the [DOI link](https://doi.org/10.7303/syn50614194). Detailed steps will be discussed in $\color{red}{TODO}$
+4. (optional) To download the FACED dataset, please refer to the [DOI link](https://doi.org/10.7303/syn50614194). Detailed steps will be discussed in [here](./src/further_illustration/FACED_dataset_preparations.md)
 .
 
 ## Models and Dataset
@@ -135,7 +135,7 @@ Totally, GNN4EEG implements these functions:
 and each model is equipped with **train**, **predict**, **save** and **load** function.
 
 
-Detailed arguments and usage will be further discussed in $\color{red}{TODO}$.
+Detailed arguments and usage will be further discussed in [here](./src/further_illustration/Functions_and_Arguments.md).
 
 ## Example Usage
 
@@ -147,7 +147,7 @@ Generally, to train and evaluate a model on a certain dataset, users can follow 
 
 3. **Validation Protocols and Other Training Configurations**: Use protocols.evaluation to define the validation protocols and put other training configurations into the parameter "grid". Then, the training and evaluating progress will be launched! (Hint: in this step, if you do not need a cross-validation to find proper hyper-parameters, then simply using *.train and *.predict is enough. Here, * represents your model declared in step 2)
 
-Entire codes and other examples can be found in $\color{red}{TODO}$
+Entire codes and other examples can be found in [here](example.ipynb)
 
 ## Citations
 
