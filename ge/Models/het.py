@@ -47,8 +47,8 @@ class STDCN_with_GRU(nn.Module):
         # deg_inv shape (b,n,n)
         H = torch.bmm(deg_inv, H)
         H = torch.bmm(H, deg_inv)
-        H = torch.tensor(H, dtype=torch.float32).to(self.device)
-        # H = H.clone().detach().to(self.device)
+        # H = torch.tensor(H, dtype=torch.float32).to(self.device)
+        H = H.clone().detach().to(torch.float32).to(self.device)
         return H
 
     def reset_parameters(self):
