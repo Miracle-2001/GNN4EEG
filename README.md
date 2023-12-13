@@ -151,7 +151,12 @@ Entire codes and other examples can be found in [here](example.ipynb)
 
 ## Citations
 
-Zhang K, Ye Z, Ai Q, et al. GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network[J]. arXiv preprint arXiv:2309.15515, 2023.
+@article{zhang2023gnn4eeg,
+  title={GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network},
+  author={Zhang, Kaiyuan and Ye, Ziyi and Ai, Qingyao and Xie, Xiaohui and Liu, Yiqun},
+  journal={arXiv preprint arXiv:2309.15515},
+  year={2023}
+}
 
 ## Contact
 
