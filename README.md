@@ -1,3 +1,4 @@
+Orginal Paper: GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network
 
 ![logo](./src/pics/logo.png)
 ---
