@@ -151,7 +151,7 @@ Entire codes and other examples can be found in [here](example.ipynb)
 
 ## Citations
 
-$\color{red}{TODO}$
+Zhang K, Ye Z, Ai Q, et al. GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network[J]. arXiv preprint arXiv:2309.15515, 2023.
 
 ## Contact
 
