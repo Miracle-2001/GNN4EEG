@@ -1,7 +1,8 @@
-Orginal Paper: GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network
 
 ![logo](./src/pics/logo.png)
 ---
+(Orginal Paper: GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network)
+
 <!-- Electroencephalography (EEG) classification is a crucial task in neuroscience, neural engineering, and several commercial applications. Traditional EEG classification models, however, have often overlooked or inadequately leveraged the brain’s topological information. Recognizing this shortfall, there has been a burgeoning interest in recent years in harnessing the potential of Graph Neural Networks (GNN) to exploit the topological information by modeling features selected from each EEG channel in a graph structure. 
 
 However, it remains challenging to evaluate the transferability of these models and implement GNN-based EEG classification models in practice due to the lack of easy-to-use toolkits and large-scale public benchmarks. To tackle this, we build GNN4EEG, a benchmark and toolkit for EEG classification with GNN. -->
