@@ -163,6 +163,6 @@ Entire codes and other examples can be found in [here](example.ipynb)
 
 ## Contact
 
-Kaiyuan Zhang (<kaiyuanzhang2001@gmail.com>)
+Kaiyuan Zhang (<kaiyuanzhang2001@gmail.com>,<1292202748@qq.com>)
 
 Ziyi Ye (<yeziyi1998@gmail.com>)
