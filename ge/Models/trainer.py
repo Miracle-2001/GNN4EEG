@@ -241,6 +241,9 @@ class Trainer(object):
 
     def train_and_eval(self, train_data, train_label, valid_data, valid_label,
                        num_freq=None, reload=True, nd_predict=True): 
+        # print("train_and_eval !!!!")
+        # for k, v in self.__dict__.items():
+        #     print(k,v)
         if self.model_name == 'Het':
             self.num_freq = num_freq
             self.num_time = train_data.shape[-1]-num_freq
@@ -260,13 +263,21 @@ class Trainer(object):
         self.model.to(self.device)
         # print("using device: ", self.device)
 
+        # print("gpu device ",self.device)
+
+        # for name, param in self.model.named_parameters():
+        #     print(name)
+        #     print(param.data.shape)
+            
+        # print(self.optimizer)
         if self.optimizer == 'Adam':
             self.optimizer = torch.optim.Adam(
                 self.model.parameters(), lr=self.lr)
         else:
             self.optimizer = torch.optim.SGD(
                 self.model.parameters(), lr=self.lr)
-
+        # print(self.optimizer)
+        
         if self.model_name == 'Het':
             mat_train = get_het_adjacency_matrix(train_data)
             mat_val = get_het_adjacency_matrix(valid_data)
@@ -296,8 +307,9 @@ class Trainer(object):
             time_end = time.time()
             time_cost = time_end - time_start
 
-            # print('device', self.device, 'Epoch {:.0f} training_acc: {:.4f}  valid_acc: {:.4f}| train_loss: {:.4f}, valid_loss: {:.4f}, | time cost: {:.3f}'.format(
-            #     train_metric['epoch'], train_metric['acc'], eval_metric['acc'], train_metric['loss'], eval_metric['loss'], time_cost))
+            # if train_metric['epoch']%5==0:
+            #     print('device', self.device, 'Epoch {:.0f} training_acc: {:.4f}  valid_acc: {:.4f}| train_loss: {:.4f}, valid_loss: {:.4f}, | time cost: {:.3f}'.format(
+            #         train_metric['epoch'], train_metric['acc'], eval_metric['acc'], train_metric['loss'], eval_metric['loss'], time_cost))
 
             eval_acc_list.append(eval_metric['acc'])
             train_acc_list.append(train_metric['acc'])
@@ -321,7 +333,7 @@ class Trainer(object):
 
     def train_only(self, train_data, train_label, valid_data=None, mat_train=None,
                    num_freq=None):  # ,small=False,step=0.00001):
-        print("in train_only num_fe",num_freq)
+        # print("in train_only num_fe",num_freq)
         
         # self.num_epoch = 1
         if self.model_name == 'Het':
@@ -341,7 +353,7 @@ class Trainer(object):
 
         self.model = self.model_f(**self.model_config_para)
         self.model.to(self.device)
-        print("gpu device ", self.device)
+        # print("gpu device ", self.device)
 
         # self.optimizer = torch.optim.Adam(
         #         self.model.parameters(), lr=self.lr)

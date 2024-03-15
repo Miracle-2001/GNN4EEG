@@ -141,7 +141,8 @@ def data_FACED(protocol, categories, data_path):
     labels=np.tile(label_repeat, data.shape[0])
     data=data.reshape(-1,feature_shape, 30).transpose([0, 2, 1])
 
-    dataloader = DataLoader(protocol, data, labels, 'FACED')
+    subject_id_list=[int(i/len(label_repeat)) for i in range(labels.shape[0])]
+    dataloader = DataLoader(protocol, data, labels, 'FACED',subject_id_list=subject_id_list)
     return dataloader
     
 

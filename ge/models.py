@@ -17,7 +17,7 @@ class GNNModel(object):
 
 class DGCNNTrainer(Trainer):
     def __init__(self, edge_index=None, edge_weight=None, num_classes=2, device=torch.device('cpu'),
-                 optimizer=torch.optim.Adam, num_hiddens=400, num_layers=2, dropout=0.5, early_stop=20,
+                 optimizer='Adam', num_hiddens=400, num_layers=2, dropout=0.5, early_stop=20,
                  batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
 
         # if edge_index is None or edge_weight is None:
@@ -53,7 +53,7 @@ class DGCNN(GNNModel):
         pass
 
     def train(self, data, labels, device=torch.device('cpu'),
-              optimizer=torch.optim.Adam, num_classes=2, dropout=0.5,
+              optimizer='Adam', num_classes=2, dropout=0.5,
               batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
         '''
         This function is used to further define the training hyper-parameters and start the training progress. 
@@ -66,7 +66,7 @@ class DGCNN(GNNModel):
         return self.trainer.train_only(data, labels)
 
     def train_and_eval(self, data_train, label_train, data_val, label_val, device=torch.device('cpu'),
-                       optimizer=torch.optim.Adam, num_classes=2, dropout=0.5,
+                       optimizer='Adam', num_classes=2, dropout=0.5,
                        batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
         self.trainer = DGCNNTrainer(edge_index=self.edge_index, edge_weight=self.edge_weight, num_classes=num_classes, device=device,
                                     num_hiddens=self.num_hiddens, num_layers=self.num_layers, dropout=dropout, optimizer=optimizer,
@@ -102,7 +102,7 @@ class DGCNN(GNNModel):
 
 class RGNNTrainer(Trainer):
     def __init__(self, edge_index=None, edge_weight=None, num_classes=2, device=torch.device('cpu'),
-                 domain_adaptation=False, distribution_learning=False, optimizer=torch.optim.Adam,
+                 domain_adaptation=False, distribution_learning=False, optimizer='Adam',
                  num_hiddens=400, num_layers=2, dropout=0.5, early_stop=20,
                  batch_size=8, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=80):  # ,model_save_path='./rgnn_weights2'):
 
@@ -143,7 +143,7 @@ class RGNN(GNNModel):
         pass
 
     def train(self, train_data, train_labels, valid_data=None, device=torch.device('cpu'),
-              optimizer=torch.optim.Adam, num_classes=2, dropout=0.5, NodeDAT=False,
+              optimizer='Adam', num_classes=2, dropout=0.5, NodeDAT=False,
               batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
         '''
         This function is used to further define the training hyper-parameters and start the training progress. 
@@ -156,18 +156,18 @@ class RGNN(GNNModel):
                 "Validation data must be input in order to make the NodeDAT.")
         EmotionDL = False
         self.trainer = RGNNTrainer(edge_index=self.edge_index, edge_weight=self.edge_weight, num_classes=num_classes, device=device,
-                                   domain_adaptation=NodeDAT, distribution_learning=EmotionDL, optimizer=torch.optim.Adam,
+                                   domain_adaptation=NodeDAT, distribution_learning=EmotionDL, optimizer=optimizer,
                                    num_hiddens=self.num_hiddens, num_layers=self.num_layers, dropout=dropout,
                                    batch_size=batch_size, lr=lr, l2_reg=l2_reg, num_epoch=num_epoch)
 
         return self.trainer.train_only(train_data, train_labels, valid_data)
 
     def train_and_eval(self, data_train, label_train, data_val, label_val, device=torch.device('cpu'),
-                       optimizer=torch.optim.Adam, num_classes=2, dropout=0.5, NodeDAT=False, EmotionDL=False,
+                       optimizer='Adam', num_classes=2, dropout=0.5, NodeDAT=False, EmotionDL=False,
                        batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
 
         self.trainer = RGNNTrainer(edge_index=self.edge_index, edge_weight=self.edge_weight, num_classes=num_classes, device=device,
-                                   domain_adaptation=NodeDAT, distribution_learning=EmotionDL, optimizer=torch.optim.Adam,
+                                   domain_adaptation=NodeDAT, distribution_learning=EmotionDL, optimizer=optimizer,
                                    num_hiddens=self.num_hiddens, num_layers=self.num_layers, dropout=dropout,
                                    batch_size=batch_size, lr=lr, l2_reg=l2_reg, num_epoch=num_epoch)
 
@@ -203,7 +203,7 @@ class RGNN(GNNModel):
 
 class SparseDGCNNTrainer(Trainer):
     def __init__(self, edge_index=None, edge_weight=None, num_classes=2, device=torch.device('cpu'),
-                 optimizer=torch.optim.Adam, num_hiddens=400, num_layers=2, dropout=0.5, early_stop=20,
+                 optimizer='Adam', num_hiddens=400, num_layers=2, dropout=0.5, early_stop=20,
                  batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):  # l1_reg: i.e. λ in the paper   lr: i.e. τ in the paper
 
         if edge_index is None or edge_weight is None:
@@ -236,7 +236,7 @@ class SparseDGCNN(GNNModel):
         pass
 
     def train(self, data, labels, device=torch.device('cpu'),
-              optimizer=torch.optim.Adam, num_classes=2, dropout=0.5,
+              optimizer='Adam', num_classes=2, dropout=0.5,
               batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
         '''
         This function is used to further define the training hyper-parameters and start the training progress. 
@@ -251,7 +251,7 @@ class SparseDGCNN(GNNModel):
         return self.trainer.train_only(data, labels)
 
     def train_and_eval(self, data_train, label_train, data_val, label_val, device=torch.device('cpu'),
-                       optimizer=torch.optim.Adam, num_classes=2, dropout=0.5,
+                       optimizer='Adam', num_classes=2, dropout=0.5,
                        batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
         self.trainer = SparseDGCNNTrainer(edge_index=self.edge_index, edge_weight=self.edge_weight, num_classes=num_classes, device=device,
                                           num_hiddens=self.num_hiddens, num_layers=self.num_layers, dropout=dropout, optimizer=optimizer,
@@ -287,7 +287,7 @@ class SparseDGCNN(GNNModel):
 
 class HetTrainer(Trainer):
     def __init__(self, num_nodes, num_classes=2, device=torch.device('cpu'),
-                 optimizer=torch.optim.Adam,
+                 optimizer='Adam',
                  num_hiddens=64, dropout=0.2, early_stop=20,
                  batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):  # ,model_save_path='./rgnn_weights2'):
 
@@ -307,7 +307,7 @@ class HetEmotionNet(GNNModel):
         self.trainer = None
 
     def train(self, data_freq, data_time, labels, device=torch.device('cpu'),
-              optimizer=torch.optim.Adam, num_classes=2, dropout=0.5,
+              optimizer='Adam', num_classes=2, dropout=0.5,
               batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
         '''
         This function is used to further define the training hyper-parameters and start the training progress. 
@@ -326,7 +326,7 @@ class HetEmotionNet(GNNModel):
         return self.trainer.train_only(data, labels, mat_train=get_het_adjacency_matrix(data), num_freq=self.num_freq)
 
     def train_and_eval(self, data_train, label_train, data_val, label_val, num_freq, device=torch.device('cpu'),
-                       optimizer=torch.optim.Adam, num_classes=2, dropout=0.5,
+                       optimizer='Adam', num_classes=2, dropout=0.5,
                        batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):
         self.num_freq = num_freq
         self.trainer = HetTrainer(num_nodes=self.num_nodes, num_classes=num_classes, device=device,
