@@ -28,5 +28,5 @@ if __name__ =='__main__':
     K=10
     best_dict,out_acc_list=evaluation(model_DGCNN,loader,'cv',grid={"lr":0.001,"hiddens":80,'epoch':list(range(0,100)),'l1_reg':0.005,'l2_reg':0.005,
                                                                 'batch_size':256,'dropout':0.5},
-                    categories=2,K=K,device=torch.device('cuda:2'),optimizer='Adam')
+                    categories=2,K=K,device=torch.device('cuda:3'),optimizer='Adam',train_log=True)
     print(best_dict,out_acc_list)
