@@ -72,7 +72,7 @@ pip install -r requirements.txt
 *UPDATE on 2024.3.15 : 
 For convience to use, we uploaded a preprocessed FACED dataset for 2 class classification and 9 class classification, respectively. Each sample in both of them contains 5 bands. Specificly, the shape of 'FACED_dataset_2_labels.mat' is (123, 720, 150), the shape of 'FACED_dataset_2_labels.mat' is (123, 840, 150). Here, 123 means the number of subjects. 720=24×30, which means 24 videos and each videos has 30 seconds. 150=30×5, which means each sample is consist of 30 channels 5 frequence bands EEG topological graph. 
 
-Download link: [FACED_dataset_2_labels.mat](https://drive.google.com/file/d/1e9e-C4LKVvt0JBO9mNGiDrgl3s2d7OEU/view?usp=drive_link), [FACED_dataset_2_labels.mat](https://drive.google.com/file/d/1ctfPmjUvMKH4xWOkXnIrX_d_AEnhX1Cg/view?usp=drive_link)
+Download link: [FACED_dataset_2_labels.mat](https://drive.google.com/file/d/1e9e-C4LKVvt0JBO9mNGiDrgl3s2d7OEU/view?usp=drive_link), [FACED_dataset_9_labels.mat](https://drive.google.com/file/d/1ctfPmjUvMKH4xWOkXnIrX_d_AEnhX1Cg/view?usp=drive_link)
 
 After download, you can use the code below to load the dataset.
 ```python
