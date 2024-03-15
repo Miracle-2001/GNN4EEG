@@ -240,8 +240,10 @@ class Trainer(object):
         return train_loader, valid_loader
 
     def train_and_eval(self, train_data, train_label, valid_data, valid_label,
-                       num_freq=None, reload=True, nd_predict=True): 
+                       num_freq=None, reload=True, nd_predict=True,train_log=False): 
         # print("train_and_eval !!!!")
+        # print("log ",train_log)
+        # print(type(train_log))
         # for k, v in self.__dict__.items():
         #     print(k,v)
         if self.model_name == 'Het':
@@ -307,9 +309,9 @@ class Trainer(object):
             time_end = time.time()
             time_cost = time_end - time_start
 
-            # if train_metric['epoch']%5==0:
-            #     print('device', self.device, 'Epoch {:.0f} training_acc: {:.4f}  valid_acc: {:.4f}| train_loss: {:.4f}, valid_loss: {:.4f}, | time cost: {:.3f}'.format(
-            #         train_metric['epoch'], train_metric['acc'], eval_metric['acc'], train_metric['loss'], eval_metric['loss'], time_cost))
+            if train_log==True:
+                print('device', self.device, 'Epoch {:.0f} training_acc: {:.4f}  valid_acc: {:.4f}| train_loss: {:.4f}, valid_loss: {:.4f}, | time cost: {:.3f}'.format(
+                    train_metric['epoch'], train_metric['acc'], eval_metric['acc'], train_metric['loss'], eval_metric['loss'], time_cost))
 
             eval_acc_list.append(eval_metric['acc'])
             train_acc_list.append(train_metric['acc'])
@@ -332,7 +334,7 @@ class Trainer(object):
         
 
     def train_only(self, train_data, train_label, valid_data=None, mat_train=None,
-                   num_freq=None):  # ,small=False,step=0.00001):
+                   num_freq=None,train_log=False):  # ,small=False,step=0.00001):
         # print("in train_only num_fe",num_freq)
         
         # self.num_epoch = 1
@@ -355,11 +357,12 @@ class Trainer(object):
         self.model.to(self.device)
         # print("gpu device ", self.device)
 
-        # self.optimizer = torch.optim.Adam(
-        #         self.model.parameters(), lr=self.lr)
-        self.optimizer = self.optimizer(
-            self.model.parameters(), lr=self.lr)
-
+        if self.optimizer == 'Adam':
+            self.optimizer = torch.optim.Adam(
+                self.model.parameters(), lr=self.lr)
+        elif self.optimizer == 'SGD':
+            self.optimizer = torch.optim.SGD(
+                self.model.parameters(), lr=self.lr)
         
         if self.model_name == 'Het':
             train_loader = self.data_prepare_train_only(
@@ -377,7 +380,8 @@ class Trainer(object):
         train_loss_list = []
         # lr_list=[]
         for i in range(self.num_epoch):
-            print("training epochs : ", i)
+            if train_log:
+                print("training epochs : ", i)
             train_metric = self.do_epoch(train_loader, 'train', i)
             # print('device',self.device,'fold', fold, 'Epoch {:.1f} training_acc: {:.4f}  valid_acc: {:.4f}| train_loss: {:.4f}, valid_loss: {:.4f}, | time cost: {:.3f}'.format(
             #     train_metric['epoch'], train_metric['acc'], eval_metric['acc'], train_metric['loss'], eval_metric['loss'], time_cost))
