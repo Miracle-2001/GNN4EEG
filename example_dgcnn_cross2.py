@@ -1,10 +1,11 @@
+# A 2-class classification example for DGCNN using FACED dataset
 from ge.protocols import *
 from ge.models import *
 
 
 if __name__ =='__main__':
     # load the FACED dataset
-    data_path='./src/my_FACED_dataset.mat'
+    data_path='./FACED_dataset_2_labels.mat'
     loader=data_FACED('cross_subject',2,data_path)
     print(loader.data.shape)
 
