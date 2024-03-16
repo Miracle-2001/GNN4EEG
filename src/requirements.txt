@@ -38,7 +38,7 @@ nvidia-ml-py3==7.352.0
 opencv-python==4.6.0.66
 packaging==21.3
 pandas==1.4.3
-Pillow==9.2.0
+Pillow==9.3.0
 pooch==1.6.0
 protobuf==3.19.4
 psutil==5.9.5
