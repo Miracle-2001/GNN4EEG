@@ -163,17 +163,7 @@ Generally, to train and evaluate a model on a certain dataset, users can follow 
 Entire codes and other examples can be found in [here](example.ipynb) or [here](example_dgcnn_cross2.py)
 
 ## Citations
-```
-@article{zhang2023gnn4eeg,
-  title={GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network},
-  author={Zhang, Kaiyuan and Ye, Ziyi and Ai, Qingyao and Xie, Xiaohui and Liu, Yiqun},
-  journal={arXiv preprint arXiv:2309.15515},
-  year={2023}
-}
-```
+
 
 ## Contact
 
-Kaiyuan Zhang (<kaiyuanzhang2001@gmail.com>,<1292202748@qq.com>)
-
-Ziyi Ye (<yeziyi1998@gmail.com>)
