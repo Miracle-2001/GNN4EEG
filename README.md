@@ -165,11 +165,12 @@ Entire codes and other examples can be found in [here](example.ipynb) or [here](
 
 ## Citations
 ```
-@article{zhang2023gnn4eeg,
+@inproceedings{zhang2024gnn4eeg,
   title={GNN4EEG: A Benchmark and Toolkit for Electroencephalography Classification with Graph Neural Network},
   author={Zhang, Kaiyuan and Ye, Ziyi and Ai, Qingyao and Xie, Xiaohui and Liu, Yiqun},
-  journal={arXiv preprint arXiv:2309.15515},
-  year={2023}
+  booktitle={Companion of the 2024 on ACM International Joint Conference on Pervasive and Ubiquitous Computing},
+  pages={612--617},
+  year={2024}
 }
 ```
 
