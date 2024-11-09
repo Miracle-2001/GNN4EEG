@@ -179,3 +179,7 @@ Entire codes and other examples can be found in [here](example.ipynb) or [here](
 Kaiyuan Zhang (<kaiyuanzhang2001@gmail.com>,<1292202748@qq.com>)
 
 Ziyi Ye (<yeziyi1998@gmail.com>)
+
+## News
+
+· Updated the implementation of DGCNN and SparseDGCNN on 2024.11.10
