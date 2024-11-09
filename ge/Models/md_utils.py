@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 import os
+import torch.nn as nn
 import math
 from torch.autograd import Function
 from torch_geometric.nn import global_add_pool, SGConv
@@ -67,60 +68,8 @@ def distribution_label(self, Y):
         distribution_labels[i, :] = self.dl_mat[Y[i]]
     return distribution_labels
 
-def get_edge_weight(args):
-    total_part = '''Fp1 Fp2 Fz F3 F4 F7 F8 FC1 FC2 FC5 FC6 Cz C3 C4 T7 T8 CP1 CP2 CP5 CP6 Pz P3 P4 P7 P8 PO3 PO4 Oz O1 O2'''.split()
-    edge_pos_value = np.load('./Models/pos.npy')*100  # multiply 100
-    edge_weight = np.zeros([len(total_part), len(total_part)])
-    # edge_pos_value = [edge_pos[key] for key in total_part]
-    delta = 2  # Choosing delta=2 makes the proportion of non_negligible connections exactly 20%
-    edge_index = [[], []]
-    if args.model=='DGCNN' or args.model=='SparseDGCNN':
-        for i in range(len(total_part)):
-            for j in range(len(total_part)):
-                edge_index[0].append(i)
-                edge_index[1].append(j)
-                if i == j:
-                    edge_weight[i][j] = 1
-                else:
-                    edge_weight[i][j] = np.sum(
-                        [(edge_pos_value[i][k] - edge_pos_value[j][k])**2 for k in range(2)])
-                    if delta/edge_weight[i][j] > 1:
-                        edge_weight[i][j] = math.exp(-edge_weight[i][j]/2)
-                    else:
-                        edge_weight[i][j] = 0
-    elif args.model=='RGNN':
-        for i in range(len(total_part)):
-            for j in range(len(total_part)):
-                edge_index[0].append(i)
-                edge_index[1].append(j)
-                if i == j:
-                    edge_weight[i][j] = 1
-                else:
-                    edge_weight[i][j] = np.sum([(edge_pos_value[i][k]
-                                                - edge_pos_value[j][k])**2
-                                                for k in range(2)])
-                    edge_weight[i][j] = min(1, delta/edge_weight[i][j])
-        global_connections = [
-            ['Fp1', 'Fp2'],
-            ['F3', 'F4'],
-            ['FC5', 'FC6'],
-            ['C3', 'C4'],
-            ['CP5', 'CP6'],
-            ['P3', 'P4'],
-            ['PO3', 'PO4'],
-            ['O1', 'O2']
-        ]
-        for item in global_connections:
-            i = total_part.index(item[0])
-            j = total_part.index(item[1])
-            edge_weight[i][j] -= 1
-            edge_weight[j][i] -= 1
-    return edge_index, edge_weight
-
-def get_edge_weight_from_electrode(model_name,edge_pos_value,global_connections=None):
-    num_nodes=len(edge_pos_value)
+def get_edge_weight_from_electrode(num_nodes,model_name,edge_pos_value,global_connections=None):
     edge_weight = np.zeros([num_nodes, num_nodes])
-    # edge_pos_value = [edge_pos[key] for key in total_part]
     delta = 2  # Choosing delta=2 makes the proportion of non_negligible connections exactly 20%
     edge_index = [[], []]
     if model_name=='DGCNN' or model_name=='SparseDGCNN':
@@ -128,15 +77,9 @@ def get_edge_weight_from_electrode(model_name,edge_pos_value,global_connections=
             for j in range(num_nodes):
                 edge_index[0].append(i)
                 edge_index[1].append(j)
-                if i == j:
-                    edge_weight[i][j] = 1
-                else:
-                    edge_weight[i][j] = np.sum(
-                        [(edge_pos_value[i][k] - edge_pos_value[j][k])**2 for k in range(2)])
-                    if delta/edge_weight[i][j] > 1:
-                        edge_weight[i][j] = math.exp(-edge_weight[i][j]/2)
-                    else:
-                        edge_weight[i][j] = 0
+        edge_weight=torch.from_numpy(edge_weight)
+        nn.init.xavier_normal_(edge_weight)
+        edge_weight=edge_weight.numpy()
     elif model_name=='RGNN':
         for i in range(num_nodes):
             for j in range(num_nodes):

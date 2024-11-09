@@ -36,19 +36,15 @@ class DGCNNTrainer(Trainer):
 
 
 class DGCNN(GNNModel):
-    def __init__(self, num_nodes, num_hiddens, num_layers, electrode_position):
+    def __init__(self, num_nodes, num_hiddens, num_layers):
         '''
-        Initialize a DGCNN model. Here the shape of electrode_position should be (num_nodes,2) or (num_nodes,3).
+        Initialize a DGCNN model. 
         '''
-
-        if (num_nodes != len(electrode_position)):
-            raise ValueError(
-                "The number of element in electrode_position should be equal to num_nodes.")
         self.num_nodes = num_nodes
         self.num_hiddens = num_hiddens
         self.num_layers = num_layers
         self.edge_index, self.edge_weight = get_edge_weight_from_electrode(
-            model_name='DGCNN', edge_pos_value=electrode_position)
+            num_nodes, model_name='DGCNN', edge_pos_value=None)
         self.trainer = None
         pass
 
@@ -138,7 +134,7 @@ class RGNN(GNNModel):
         self.num_hiddens = num_hiddens
         self.num_layers = num_layers
         self.edge_index, self.edge_weight = get_edge_weight_from_electrode(
-            model_name='RGNN', edge_pos_value=electrode_position, global_connections=global_connections)
+            num_nodes,model_name='RGNN', edge_pos_value=electrode_position, global_connections=global_connections)
         self.trainer = None
         pass
 
@@ -206,9 +202,9 @@ class SparseDGCNNTrainer(Trainer):
                  optimizer='Adam', num_hiddens=400, num_layers=2, dropout=0.5, early_stop=20,
                  batch_size=256, lr=5e-3, l1_reg=0.0, l2_reg=0.0, num_epoch=50):  # l1_reg: i.e. λ in the paper   lr: i.e. τ in the paper
 
-        if edge_index is None or edge_weight is None:
-            raise Exception("No edge_index and edge_weight")
-        num_nodes = edge_weight.shape[0]
+        num_nodes = 0
+        if edge_weight is not None:
+            num_nodes = edge_weight.shape[0]
 
         super().__init__(SparseDGCNN_Model, num_nodes, num_hiddens, num_classes, batch_size, num_epoch,
                          lr, l1_reg, l2_reg, dropout, early_stop, optimizer, device,
@@ -220,18 +216,15 @@ class SparseDGCNNTrainer(Trainer):
 
 
 class SparseDGCNN(GNNModel):
-    def __init__(self, num_nodes, num_hiddens, num_layers, electrode_position):
+    def __init__(self, num_nodes, num_hiddens, num_layers):
         '''
         Initialize a SparseDGCNN model. Here the shape of 'electrode_position' should be (2,num_nodes) or (3,num_nodes). 
         '''
-        if (num_nodes != len(electrode_position)):
-            raise ValueError(
-                "The number of element in electrode_position should be equal to num_nodes.")
         self.num_nodes = num_nodes
         self.num_hiddens = num_hiddens
         self.num_layers = num_layers
         self.edge_index, self.edge_weight = get_edge_weight_from_electrode(
-            model_name='SparseDGCNN', edge_pos_value=electrode_position)
+            num_nodes,model_name='SparseDGCNN', edge_pos_value=None)
         self.trainer = None
         pass
 
@@ -276,7 +269,7 @@ class SparseDGCNN(GNNModel):
         self.trainer.save(path, name)
 
     def load(self, path, name='best_model.dic.pkl'):
-        self.trainer = DGCNNTrainer()
+        self.trainer = SparseDGCNNTrainer()
         self.trainer.load(path, name)
         self.num_nodes = self.trainer.num_nodes
         self.num_hiddens = self.trainer.num_hiddens

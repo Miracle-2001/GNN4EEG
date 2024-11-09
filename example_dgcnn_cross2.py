@@ -14,11 +14,8 @@ if __name__ =='__main__':
     num_hiddens=80
     num_layers=2
 
-    # load electrode_position 
-    electrode_position=np.load('./src/utils&others/pos.npy')[:30]*100
-    print(electrode_position)
     # model initialization
-    model_DGCNN=DGCNN(num_nodes,num_hiddens,num_layers,electrode_position)
+    model_DGCNN=DGCNN(num_nodes,num_hiddens,num_layers)
 
     subject_num=123
     section_size=loader.data.shape[0]/subject_num
