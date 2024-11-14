@@ -33,9 +33,9 @@ For detailed usages, please refer to [examples](../../example.ipynb).
 For 'Models' part, we present the initialization methods, training methods and predicting methods of the 4 models, i.e., DGCNN, RGNN, SparseDGCNN and HetEmotionNet. Each model is seperately equipped with initialization methods, training methods and predicting methods. All of these models inherit from GNNModel.
 
 ### DGCNN
-- **models.DGCNN(num_nodes,num_hiddens,num_layers,electrode_position)**
+- **models.DGCNN(num_nodes,num_hiddens,num_layers)**
 
-    Initialize a DGCNN model. Here the shape of 'electrode_position' should be (2,num_nodes) or (3,num_nodes). 
+    Initialize a DGCNN model. 
 
 - **models.DGCNN.train(self,data,labels, device=torch.device('cpu'),optimizer=torch.optim.Adam, num_classes=2,dropout=0.5,batch_size=256, lr=5e-3, l1_reg=0.0,l2_reg=0.0, num_epoch=50)**
     
@@ -53,7 +53,7 @@ Please note that because the EmotionDL regularization is complex and data orient
 
 - **models.RGNN(num_nodes,num_hiddens,num_layers,electrode_position,global_connections=None)**
 
-    Initialize a RGNN model. Here the shape of 'electrode_position' should be (2,num_nodes) or (3,num_nodes). Global connections should be declared if the user want to introduce global inter-channel connections. (Detail intuition can be found in the original paper.)
+    Initialize a RGNN model. Here the shape of 'electrode_position' should be (2,num_nodes) or (3,num_nodes), representing for 2D or 3D position coordinate value for each electrode. An example can be found in /src/utils&others/pos.npy, the use of which is shown in example.ipynb. Global connections should be declared if the user want to introduce global inter-channel connections. (Detail intuition can be found in the original paper.)
 
 - **models.RGNN.train(self,train_data,train_labels,valid_data=None, device=torch.device('cpu'),optimizer=torch.optim.Adam, num_classes=2,dropout=0.5,NodeDAT=False, batch_size=256, lr=5e-3, l1_reg=0.0,l2_reg=0.0, num_epoch=50)**
     
@@ -67,9 +67,9 @@ Please note that because the EmotionDL regularization is complex and data orient
 
 
 ### SparseDGCNN
-- **models.SparseDGCNN(num_nodes,num_hiddens,num_layers,electrode_position)**
+- **models.SparseDGCNN(num_nodes,num_hiddens,num_layers)**
 
-    Initialize a SparseDGCNN model. Here the shape of 'electrode_position' should be (2,num_nodes) or (3,num_nodes). 
+    Initialize a SparseDGCNN model.
 
 - **models.SparseDGCNN.train(self,data,labels, device=torch.device('cpu'),optimizer=torch.optim.Adam, num_classes=2, dropout=0.5,batch_size=256, lr=5e-3, l1_reg=0.0,l2_reg=0.0, num_epoch=50)**
 
